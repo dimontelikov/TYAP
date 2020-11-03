@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/test_ParserLib.dir/test_pars.cpp.o  -o test_ParserLib  ../../lib/libgtest_main.a ../../src/parser/libParserLib.a ../../src/struct/libStructLib.a ../../lib/libgtest.a -lpthread 

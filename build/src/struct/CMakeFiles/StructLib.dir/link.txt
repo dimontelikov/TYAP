@@ -1,2 +1,0 @@
-/usr/bin/ar qc libStructLib.a  CMakeFiles/StructLib.dir/struct.cpp.o
-/usr/bin/ranlib libStructLib.a
