@@ -19,13 +19,6 @@ bool Parser::is_oper(Token& token)
 	}
 }
 
-bool Parser::is_oper_str(string ch)
-{
-	if (ch == "+" || ch == "-" || ch == "*" || ch == "/" || ch == "^")
-		return true;
-	return false;
-}
-
 void Parser::print_ast(unique_ptr<AstNode> const& node)
 {
 	cout << "AstTree:" << endl;
@@ -165,85 +158,34 @@ void Parser::parsing_token_vector(vector<Token>& VectorToken)
   
 std::unique_ptr<AstNode> Parser::build_ast_tree_bottom_up()
 {
-	string LeftOperStr = "";
-	string RightOperStr = "";
 	string OperationStr = "";
-	int number_operand = 0;
 	unique_ptr<AstNode> Root = nullptr;
 
 	while (!StackOutput.empty())
 	{
-		number_operand = 0;
+		
 		while (!is_oper_str(StackOutput.top()))
-		{
-			StackExp.push(StackOutput.top());
-			number_operand++;
+		{		
+			auto NodeOperand = make_unique<AstOperand>(nullptr, StackOutput.top());
+			StackAst.push(move(NodeOperand));
 			StackOutput.pop();
 		}
 
-		//cout << endl << "number_operand = " << number_operand << endl;
+		
 		if (is_oper_str(StackOutput.top()))
 		{
 			OperationStr = StackOutput.top();
 			StackOutput.pop();
 
-			if (StackExp.size() >= 2 && number_operand >= 2)
+			if (StackAst.size() >= 2)
 			{
-				//cout << "varik1" << endl;
-				RightOperStr = StackExp.top();
-				StackExp.pop();
-				LeftOperStr = StackExp.top();
-				StackExp.pop();
-
-				auto LeftOperNode = make_unique<AstOperand>(nullptr, LeftOperStr);
-				auto RightOperNode = make_unique<AstOperand>(nullptr, RightOperStr);
-				auto OperationNode = make_unique<AstBinOper>(move(LeftOperNode), move(RightOperNode), OperationStr);
-				
-				StackAst.push(move(OperationNode));
-			}
-			else if (number_operand == 0 && StackAst.size() == 1)
-			{
-				//cout << "varik2" << endl;
-				LeftOperStr = StackExp.top();
-				StackExp.pop();
-				RightOperStr = "";
-
-				auto LeftOperNode = make_unique<AstOperand>(nullptr, LeftOperStr);
-				auto RightOperNode = make_unique<AstOperand>(move(StackAst.top()), RightOperStr);
+				auto RightOperand = move(StackAst.top());
 				StackAst.pop();
-				auto OperationNode = make_unique<AstBinOper>(move(LeftOperNode), move(RightOperNode), OperationStr);
-				
-				StackAst.push(move(OperationNode));
-			}
-			else if (number_operand == 1 && !StackAst.empty() && !StackExp.empty())
-			{
-				//cout << "varik3" << endl;
-				LeftOperStr = "";
-				RightOperStr = StackExp.top();
-				StackExp.pop();
-
-				auto LeftOperNode = make_unique<AstOperand>(move(StackAst.top()), LeftOperStr);
-				auto RightOperNode = make_unique<AstOperand>(nullptr, RightOperStr);
+				auto LeftOperand = move(StackAst.top());
 				StackAst.pop();
-				auto OperationNode = make_unique<AstBinOper>(move(LeftOperNode), move(RightOperNode), OperationStr);
-				
-				StackAst.push(move(OperationNode));
-			}
-			else
-			{
-				//cout << "varik4" << endl;
-				LeftOperStr = "";
-				RightOperStr = "";
 
-				auto RightOperNode = make_unique<AstOperand>(move(StackAst.top()), LeftOperStr);
-				StackAst.pop();
-				auto LeftOperNode = make_unique<AstOperand>(move(StackAst.top()), RightOperStr);
-				StackAst.pop();
-				auto OperationNode = make_unique<AstBinOper>(move(LeftOperNode), move(RightOperNode), OperationStr);
-				
-				StackAst.push(move(OperationNode));
+				StackAst.push(make_unique<AstBinOper>(move(LeftOperand), move(RightOperand), OperationStr));
 			}
-
 		}
 		else
 		{

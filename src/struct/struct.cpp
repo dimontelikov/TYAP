@@ -42,3 +42,10 @@ void print_space(size_t space)
 		space--;
 	}
 }
+
+bool is_oper_str(string ch)
+{
+	if (ch == "+" || ch == "-" || ch == "*" || ch == "/" || ch == "^")
+		return true;
+	return false;
+}

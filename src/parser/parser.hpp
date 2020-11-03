@@ -8,7 +8,6 @@ class Parser
 	std::string variable_str = "node_str"; //Reserved variable
 	std::unique_ptr<AstRoot> AstRootN = nullptr;
 	std::stack<std::string> StackOutput;
-	std::stack<std::string> StackExp;
 	std::stack<std::unique_ptr<AstNode>> StackAst;
 
 public:
@@ -17,7 +16,7 @@ public:
 
 	//Check 
 	bool is_oper(Token& token);
-	bool is_oper_str(std::string ch);
+	//bool is_oper_str(std::string ch);
 	bool check_correct_StackOutput();
 
 	void parsing_token_vector(std::vector<Token>& VectorToken);

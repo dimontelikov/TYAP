@@ -69,6 +69,7 @@ private:
 
 std::ostream& operator << (std::ostream& os, const Token::Words& kind);
 void print_space(size_t space);
+bool is_oper_str(std::string ch);
 
 class AstNode
 {
@@ -125,19 +126,8 @@ public:
 	std::string get_name(){return OperationName;}
 	void print(size_t space = 0, size_t arg = 0)
 	{
-		bool check_one_arg = false; // arg = str
-		bool check_two_arg = false;
 
 		std::cout << std::endl;
-		if (LeftOperand->get_operand() != nullptr)
-		{
-			check_one_arg = true; // arg = opnode
-		}
-
-		if (RightOperand->get_operand() != nullptr)
-		{
-			check_two_arg = true; // arg = opnode
-		}
 
 		//std::cout << std::endl;
 		print_space(space);
@@ -145,26 +135,29 @@ public:
 		print_space(space + 1);
 		std::cout << "\"" << OperationName << "\": [";
 
-		if (!check_one_arg && check_two_arg)
+		if ((LeftOperand->get_name() != "" && !is_oper_str(LeftOperand->get_name())) && (RightOperand->get_name() == "" || is_oper_str(RightOperand->get_name())))
 		{
 			std::cout << std::endl;
 			print_space(space + 4);
 		}
 
 		LeftOperand->print(space + 2, 1);
-		if (check_one_arg && !check_two_arg)
-		{
-			std::cout << std::endl;
-			print_space(space + 4);
-		}	
-
-		RightOperand->print(space + 2, 2);
 		
-		if (check_one_arg || check_two_arg)
+		std::cout << ", ";
+		if ((LeftOperand->get_name() == "" || is_oper_str(LeftOperand->get_name())) && (RightOperand->get_name() != "" && !is_oper_str(RightOperand->get_name())))
 		{
 			std::cout << std::endl;
 			print_space(space + 2);
+		}	
+
+		RightOperand->print(space + 2, 2);
+
+		if (LeftOperand->get_name() == "" || is_oper_str(LeftOperand->get_name()) || RightOperand->get_name() == "" || is_oper_str(RightOperand->get_name()))
+		{
+			std::cout << std::endl;
+			print_space(space + 1);
 		}
+
 		std::cout << "]" << std::endl;
 		print_space(space);
 		std::cout << "}";
@@ -181,14 +174,12 @@ public:
 	AstOperand(std::unique_ptr<AstNode> op, std::string op_name) : Operand(move(op)), NameOperand(op_name) {}
 	~AstOperand() = default;
 	std::unique_ptr<AstNode> const& get_operand(){ return Operand; }
-
 	void set_param(std::unique_ptr<AstNode> op, std::string op_name)
 	{
 		NameOperand = op_name;
 		Operand = move(op);
 	}
 	std::string get_name() { return NameOperand; }
-	//std::unique_ptr<AstNode> const& get_operand() { return Operand; }
 	void print(size_t space = 0, size_t arg = 0)
 	{
 		if (Operand)
@@ -198,11 +189,6 @@ public:
 		else
 		{
 			std::cout << NameOperand;
-		}
-
-		if (arg == 1)
-		{
-			std::cout << ", ";
 		}
 	} 
 };
