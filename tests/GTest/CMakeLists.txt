@@ -23,6 +23,3 @@ target_link_libraries(
 			ParserLib
 			StructLib
 )
-
-add_test(NAME example_test_one COMMAND test_LexerLib)
-add_test(NAME example_test_two COMMAND test_ParserLib)
