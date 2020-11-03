@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/struct/struct.hpp
+iostream
+-
+vector
+-
+map
+-
+memory
+-
+utility
+-
+
+/home/nikita/Study/compilers/For_Dimon/src/lexer/lexer.cpp
+lexer.hpp
+/home/nikita/Study/compilers/For_Dimon/src/lexer/lexer.hpp
+
+/home/nikita/Study/compilers/For_Dimon/src/lexer/lexer.hpp
+iostream
+-
+string
+-
+string.h
+-
+struct.hpp
+/home/nikita/Study/compilers/For_Dimon/src/lexer/struct.hpp
+
