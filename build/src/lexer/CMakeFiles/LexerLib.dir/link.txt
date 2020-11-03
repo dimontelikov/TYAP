@@ -1,2 +1,0 @@
-/usr/bin/ar qc libLexerLib.a  CMakeFiles/LexerLib.dir/lexer.cpp.o
-/usr/bin/ranlib libLexerLib.a

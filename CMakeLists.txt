@@ -20,17 +20,17 @@ target_compile_options(tutorial_compiler_flags INTERFACE
 )
 
 #control variable
-option(BUILD_TESTING "Use my tests" OFF)
-option(PACKAGE_TESTS "Build the tests" OFF)
+option(BUILD_TESTING "Use my tests" ON)
+option(PACKAGE_TESTS "Build the tests" ON)
 
 #input in subdirectory
 add_subdirectory(src)
-#add_subdirectory(external)
+add_subdirectory(extern)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	if (BUILD_TESTING AND PACKAGE_TESTS)
 		enable_testing()
-		include(CTest)
+		#include(CTest)
 		include(GoogleTest)  		
     	add_subdirectory(tests)
 	endif()

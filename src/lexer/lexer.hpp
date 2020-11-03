@@ -26,7 +26,6 @@ public:
 		return false;
 	}
 	Token word_processing(std::string& Line, size_t& line_identifier);
-	Token::Words check_keyword(std::string& str);
 
 	//processing digit
 	bool is_digit(char ch)

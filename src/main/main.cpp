@@ -2,13 +2,35 @@
 #include <algorithm>
 #include "lexer.hpp"
 #include "parser.hpp"
+#include "cxxopts.hpp"
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
+	cxxopts::Options options("test", "A brief description");
 
-	ifstream FileInput("ex.txt", ios::in);
+    options.add_options()
+        ("f, file", "Input file", cxxopts::value<string>())
+        ("h, help", "Print usage")
+    ;
+
+    auto result = options.parse(argc, argv);
+
+    if (result.count("help"))
+    {
+		cout << options.help() << endl;
+		exit(0);
+    } 
+
+    string FileName = "ex.txt";
+
+    if (result.count("file"))
+    {
+    	FileName = result["file"].as<string>();
+    }
+
+	ifstream FileInput(FileName, ios::in);
 
 	if (!FileInput)
 	{
@@ -48,6 +70,12 @@ int main()
 		// Shunting-yard
 		vector<string> VectorStrOper(Pars.parsing_token_vector(VectorToken));
 		reverse(VectorStrOper.begin(), VectorStrOper.end());
+		cout << endl << "Shunting-yard" << endl;
+		for (auto x: VectorStrOper)
+		{
+			cout << x << " ";
+		}
+		cout << endl;
 
 		if (!VectorStrOper.empty() && Pars.check_correct_arithmetic_expression(VectorStrOper)) // Сhecking for correctness of an arithmetic expression
 		{

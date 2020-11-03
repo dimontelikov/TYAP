@@ -22,22 +22,9 @@ public:
 	    Asterisk,    	// *
 	    Slash,			// /
 	    Degree,         // ^
-	    //Semicolon,      // ; 
-	    //DoubleQuote, 	// :
-	    //Comma,          // ,
-	    //String,         // Type string
-	    //Single,			// Type single
-	    //Int,		    // Type int 		 
-	    //string,         // "expr"
 	    End,	         
 	    Unexpected,     
 	    Assignment,     // = 
-	    //KeyWordIf,      // if
-	    //KeyWordIfThen,  // then
-	    //KeyWordElse,    // else
-	    //KeyWordIfEnd,   // endif
-	    //KeyWordWhile,   // while
-	    //KeyWordWhileEnd,// wend 
 	    NotEqual,       // !=
 	    LessOrEqual,    // <=
 	    MoreOrEqual,    // >=
@@ -45,11 +32,8 @@ public:
 	    SubAssign,      // -=
 	    MultAssign,     // *=
 	    DivAssign,      // /=
-	    //Point,          // .
 	    Conjunction,    // and
 	    Disjunction,    // or
-	    //KeyWordAs,      // as
-	    //KeyWordDim,     // dim
 	    Number,         //[0-9]
 	};
 

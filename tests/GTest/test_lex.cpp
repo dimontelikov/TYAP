@@ -1,35 +1,47 @@
-#include "lib.hpp"
 
+#include "lexer.hpp"
 #include <iostream>
 #include <gtest/gtest.h>
 #include <utility>
 
-using namespace simplelib;
+using namespace std;
 
-TEST(Libsimple, Sum_one)
+TEST(LibLex, znak_processing)
 {
-	double const sum_res = sum(1.0, 234.0);
-	ASSERT_EQ(sum_res, 235.0);
+	Lexer Lex;
+	string Znak = "+";
+	size_t i = 0;
+	auto TokenZnak = Lex.znak_processing(Znak, i);
+	Znak = TokenZnak.get_string();
+	ASSERT_EQ(Znak, "+");
 }
 
-TEST(Libsimple, Sum_two)
+TEST(LibLex, word_processing)
 {
-	double const sum_res = sum(-3234.0, -223.0);
-	ASSERT_EQ(sum_res, -3457.0);
+	Lexer Lex;
+	size_t i = 0;
+	string Word = "word";
+	auto TokenWord = Lex.word_processing(Word, i);
+	Word = TokenWord.get_string();
+	ASSERT_EQ(Word, "word");
 }
 
-
-TEST(Libsimple, Quadratic_equation_one)
+TEST(LibLex, digit_processing)
 {
-	auto Pair_res = std::make_pair(0.0, 0.0);
-	auto Pair_exp_res = std::make_pair(0.0512708, -234.051);
-	int const quadratic_equation_res = quadratic_equation(1.0, 234.0, -12.0, Pair_res);
-	ASSERT_TRUE(Pair_res == Pair_exp_res);
+	Lexer Lex;
+	string Digit = "1";
+	size_t i = 0;
+	auto TokenDigit = Lex.digit_processing(Digit, i);
+	Digit = TokenDigit.get_string();
+	ASSERT_EQ(Digit, "1");
 }
 
-TEST(Libsimple, Quadratic_equation_two)
+TEST(LibLex, unexpected_processing)
 {
-	auto Pair_res = std::make_pair(0.0, 0.0);
-	int const quadratic_equation_res = quadratic_equation(1.0, 1.0, 1.0, Pair_res);
-	ASSERT_EQ(quadratic_equation_res, -1);
+	Lexer Lex;
+	size_t i = 0;
+	string Unexpected = "неизвестныйтокен";
+	auto TokenUnex = Lex.unexpected_processing(Unexpected, i);
+	Unexpected = TokenUnex.get_string();
+	ASSERT_EQ(Unexpected, "неизвестныйтокен");
 }

@@ -35,14 +35,6 @@ void Lexer::line_processing(std::string Line, int line_number, int flag_end, std
 			VectorToken.push_back(digit);
 			// 3 обработка чисел
 		}
-		/*else if (3)
-		{
-			// 4 обработка строк в ковычках
-		}
-		else if (4)
-		{
-			// 5 обработка комментов
-		}*/
 		else if (line_identifier < Line.size() && Line[line_identifier] == ' '); // space skip
 		else
 		{
@@ -123,67 +115,6 @@ Token Lexer::digit_processing(string& Line, size_t& line_identifier)
 	return digit;
 }
 
-Token::Words Lexer::check_keyword(string& str)
-{
-	string str_copy_tolower = str;
-	
-
-	/*if (str_copy_tolower == "dim")
-	{
-		return Token::Words::KeyWordDim;
-	}
-	else if (str_copy_tolower == "while")
-	{
-		return Token::Words::KeyWordWhile;
-	}
-	else if (str_copy_tolower == "wend")
-	{
-		return Token::Words::KeyWordWhileEnd;
-	}
-	else if (str_copy_tolower == "if")
-	{
-		return Token::Words::KeyWordIf;
-	}
-	else if (str_copy_tolower == "then")
-	{
-		return Token::Words::KeyWordThen;
-	}
-	else if (str_copy_tolower == "else")
-	{
-		return Token::Words::KeyWordElse;
-	}
-	else if (str_copy_tolower == "endif")
-	{
-		return Token::Words::KeyWordIfEnd;
-	}
-	else if (str_copy_tolower == "as")
-	{
-		return Token::Words::KeyWordAs;
-	}
-	else if (str_copy_tolower == "integer")
-	{
-		return Token::Words::Int;
-	}
-	else if (str_copy_tolower == "single")
-	{
-		return Token::Words::Single;
-	}
-	else if (str_copy_tolower == "string")
-	{
-		return Token::Words::string;
-	}
-	else if (str_copy_tolower == "and")
-	{
-		return Token::Words::Conjunction;
-	}
-	else if (str_copy_tolower == "or")
-	{
-		return Token::Words::Disjunction;
-	}*/
-
-	return Token::Words::Identifier;
-}
-
 Token Lexer::word_processing(string& Line, size_t& line_identifier)
 {
 	Token word;
@@ -208,7 +139,7 @@ Token Lexer::word_processing(string& Line, size_t& line_identifier)
 	line_identifier--;// because read last symbol 
 
 	str = Line.substr(start_str, size_str);
-	word.set_token_type(check_keyword(str));
+	word.set_token_type(Token::Words::Identifier);
 	word.set_string(str);
 	return word;
 }
@@ -249,39 +180,10 @@ Token Lexer::znak_processing(string& Line, size_t& line_identifier)
 		case '*':
 			processing_of_complex_znak(znak, Line, line_identifier, Token::Words::MultAssign, Token::Words::Asterisk);
 			break;
-		/*case '>':
-			processing_of_complex_znak(znak, Line, line_identifier, Token::Words::MoreOrEqual, Token::Words::GreaterThan);
-			break;
-		case '<':
-			if (line_identifier < Line.size() - 1)
-			{
-				if (Line[line_identifier + 1] == '=')
-				{
-					// обработка <=
-					znak.set_token_type(Token::Words::LessOrEqual);
-					znak.set_string("<=");
-				} 
-				else if (Line[line_identifier + 1] == '>')
-				{
-					// обработка <>
-					znak.set_token_type(Token::Words::NotEqual);
-					znak.set_string("<>");
-				}
-			}
-			else 
-			{
-				znak.set_token_type(Token::Words::LessThan);
-				znak.set_string("<");
-			}
-			break;*/
 		case '^':
 			znak.set_token_type(Token::Words::Degree);
 			znak.set_string("^");
 			break;
-		/*case '=':
-			znak.set_token_type(Token::Words::Assignment);
-			znak.set_string("=");
-			break;*/
 		case '(':
 			znak.set_token_type(Token::Words::LeftParen);
 			znak.set_string("(");
@@ -290,18 +192,6 @@ Token Lexer::znak_processing(string& Line, size_t& line_identifier)
 			znak.set_token_type(Token::Words::RightParen);
 			znak.set_string(")");
 			break;
-		/*case ';':
-			znak.set_token_type(Token::Words::Semicolon);
-			znak.set_string(";");
-			break;
-		case ',':
-			znak.set_token_type(Token::Words::Comma);
-			znak.set_string(",");
-			break;
-		case '.':
-			znak.set_token_type(Token::Words::Point);
-			znak.set_string(".");
-			break;*/
 	}
 	return znak;
 }
