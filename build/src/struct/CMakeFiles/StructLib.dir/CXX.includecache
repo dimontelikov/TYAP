@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nikita/Study/compilers/For_Dimon/src/struct/struct.cpp
+struct.hpp
+/home/nikita/Study/compilers/For_Dimon/src/struct/struct.hpp
+
+/home/nikita/Study/compilers/For_Dimon/src/struct/struct.hpp
+iostream
+-
+vector
+-
+map
+-
+memory
+-
+utility
+-
+

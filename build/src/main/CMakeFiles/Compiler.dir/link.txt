@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/Compiler.dir/main.cpp.o  -o Compiler  ../struct/libStructLib.a ../lexer/libLexerLib.a ../parser/libParserLib.a ../struct/libStructLib.a 

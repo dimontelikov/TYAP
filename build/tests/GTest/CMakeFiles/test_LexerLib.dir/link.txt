@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/test_LexerLib.dir/test_lex.cpp.o  -o test_LexerLib  ../../lib/libgtest_main.a ../../src/lexer/libLexerLib.a ../../src/struct/libStructLib.a ../../lib/libgtest.a -lpthread 

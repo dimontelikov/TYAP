@@ -2,12 +2,10 @@
 #include "parser.hpp"
 #include <iostream>
 #include <gtest/gtest.h>
-#include <utility>
-#include <algorithm>
 
 using namespace std;
 
-TEST(LibPars, Shunting_yard)
+TEST(LibPars, check_correct_StackOutput)
 {
 	Parser Pars;
 	vector<Token> VectorToken;
@@ -28,13 +26,13 @@ TEST(LibPars, Shunting_yard)
 	T.set_string(op);
 	VectorToken.push_back(T);
 
-	vector<string> VectorStrOper(Pars.parsing_token_vector(VectorToken));
-	bool check_correct = Pars.check_correct_arithmetic_expression(VectorStrOper);
+	Pars.parsing_token_vector(VectorToken);
+	bool check_correct = Pars.check_correct_StackOutput();
 	
 	ASSERT_TRUE(check_correct == false);
 }
 
-TEST(LibPars, vector_str_change)
+TEST(LibPars, check_correct_StackOutput_two)
 {
 	Parser Pars;
 	vector<Token> VectorToken;
@@ -55,12 +53,10 @@ TEST(LibPars, vector_str_change)
 	T.set_string(op);
 	VectorToken.push_back(T);
 
-	vector<string> VectorStrOper(Pars.parsing_token_vector(VectorToken));
-	Pars.vector_str_change(VectorStrOper, 0);
-
-	int size = VectorStrOper.size();
+	Pars.parsing_token_vector(VectorToken);
+	bool check_correct = Pars.get_StackOutput().empty();
 	
-	ASSERT_TRUE(size == 0);
+	ASSERT_TRUE(check_correct == false);
 }
 
 TEST(LibPars, search_v_sub_node)
@@ -94,10 +90,13 @@ TEST(LibPars, search_v_sub_node)
 	T.set_string(op);
 	VectorToken.push_back(T);
 
-	vector<string> VectorStrOper(Pars.parsing_token_vector(VectorToken));
-	reverse(VectorStrOper.begin(), VectorStrOper.end());
-	vector<string> v = Pars.search_v_sub_node(VectorStrOper, 0);
-	int size = v.size();
+	T.set_token_type(Token::Words::RightParen);
+	op = ")";
+	T.set_string(op);
+	VectorToken.push_back(T);
+
+	Pars.parsing_token_vector(VectorToken);
+	bool check_correct = Pars.get_StackOutput().empty();
 	
-	ASSERT_TRUE(size == 5);
+	ASSERT_TRUE(check_correct == true);
 }

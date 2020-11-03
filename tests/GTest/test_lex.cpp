@@ -2,7 +2,6 @@
 #include "lexer.hpp"
 #include <iostream>
 #include <gtest/gtest.h>
-#include <utility>
 
 using namespace std;
 

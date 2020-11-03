@@ -68,26 +68,13 @@ int main(int argc, char** argv)
 		// Parsing
 		Parser Pars;
 		// Shunting-yard
-		vector<string> VectorStrOper(Pars.parsing_token_vector(VectorToken));
-		reverse(VectorStrOper.begin(), VectorStrOper.end());
-		cout << endl << "Shunting-yard" << endl;
-		for (auto x: VectorStrOper)
+		Pars.parsing_token_vector(VectorToken);
+		if (!Pars.get_StackOutput().empty() && Pars.check_correct_StackOutput())
 		{
-			cout << x << " ";
-		}
-		cout << endl;
-
-		if (!VectorStrOper.empty() && Pars.check_correct_arithmetic_expression(VectorStrOper)) // Сhecking for correctness of an arithmetic expression
-		{
-			//Pars.print_vector(VectorStrOper, "mainv");
 			// Build ast tree
-			auto Root = make_unique<AstRoot>(Pars.build_ast_tree(VectorStrOper));
+			auto Root = make_unique<AstRoot>(Pars.build_ast_tree_bottom_up());
 			Pars.set_AstRoot(move(Root));
 			Pars.get_AstRoot()->print();
-		}
-		else
-		{
-			cerr << "Incorrect arithmetic expression" << endl;
 		}
 	}
 	else

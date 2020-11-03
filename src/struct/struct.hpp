@@ -72,20 +72,20 @@ void print_space(size_t space);
 
 class AstNode
 {
-	std::string name = "";
+	std::string Name = "";
 	std::unique_ptr<AstNode> node = nullptr;
 public:
 	AstNode() = default;
 	virtual ~AstNode() = default;
 	virtual void print(size_t space = 0, size_t arg = 0) {}
 	virtual void set_param() {}
-	virtual std::string get_name() { return name; }
+	virtual std::string get_name() { return Name; }
 	virtual std::unique_ptr<AstNode> const& get_operand(){ return node; }
 };
 
 class AstRoot : public AstNode
 {
-	std::string name = "";
+	std::string Name = "";
 	std::unique_ptr<AstNode> AstTreeRoot = nullptr;
 public:
 	AstRoot(std::unique_ptr<AstNode> Node) : AstTreeRoot(move(Node)) {};
@@ -99,42 +99,42 @@ public:
 	{
 		AstTreeRoot = move(Node);
 	}
-	std::string get_name() { return name; }
+	std::string get_name() { return Name; }
 	std::unique_ptr<AstNode> const& get_operand(){ return AstTreeRoot; }
 };
 
 class AstBinOper : public AstNode
 {
-	std::string name_oper = "";
-	std::unique_ptr<AstNode> left_operand = nullptr;
-	std::unique_ptr<AstNode> right_operand = nullptr;
+	std::string OperationName = "";
+	std::unique_ptr<AstNode> LeftOperand = nullptr;
+	std::unique_ptr<AstNode> RightOperand = nullptr;
 public:
 	AstBinOper() {}
-	AstBinOper(std::unique_ptr<AstNode> left_op, std::unique_ptr<AstNode> right_op, std::string name_op) : left_operand(move(left_op)), right_operand(move(right_op)), name_oper(name_op) {}
+	AstBinOper(std::unique_ptr<AstNode> left_op, std::unique_ptr<AstNode> right_op, std::string op_name) : LeftOperand(move(left_op)), RightOperand(move(right_op)), OperationName(op_name) {}
 	~AstBinOper() = default;
 	//std::unique_ptr<AstNode> const& get_operand(){ return node; }
 
-	void set_param(std::unique_ptr<AstNode> left_op, std::unique_ptr<AstNode> right_op, std::string name_op) 
+	void set_param(std::unique_ptr<AstNode> left_op, std::unique_ptr<AstNode> right_op, std::string op_name) 
 	{
-		left_operand = move(left_op);
-		right_operand = move(right_op);
-		name_oper = name_op;
+		LeftOperand = move(left_op);
+		RightOperand = move(right_op);
+		OperationName = op_name;
 	}
-	std::unique_ptr<AstNode> const& get_left_operand() { return left_operand; }
-	std::unique_ptr<AstNode> const& get_right_operand() { return right_operand; }
-	std::string get_name(){return name_oper;}
+	std::unique_ptr<AstNode> const& get_LeftOperand() { return LeftOperand; }
+	std::unique_ptr<AstNode> const& get_RightOperand() { return RightOperand; }
+	std::string get_name(){return OperationName;}
 	void print(size_t space = 0, size_t arg = 0)
 	{
 		bool check_one_arg = false; // arg = str
 		bool check_two_arg = false;
 
 		std::cout << std::endl;
-		if (left_operand->get_operand() != nullptr)
+		if (LeftOperand->get_operand() != nullptr)
 		{
 			check_one_arg = true; // arg = opnode
 		}
 
-		if (right_operand->get_operand() != nullptr)
+		if (RightOperand->get_operand() != nullptr)
 		{
 			check_two_arg = true; // arg = opnode
 		}
@@ -143,7 +143,7 @@ public:
 		print_space(space);
 		std::cout << "{" << std::endl;
 		print_space(space + 1);
-		std::cout << "\"" << name_oper << "\": [";
+		std::cout << "\"" << OperationName << "\": [";
 
 		if (!check_one_arg && check_two_arg)
 		{
@@ -151,14 +151,14 @@ public:
 			print_space(space + 4);
 		}
 
-		left_operand->print(space + 2, 1);
+		LeftOperand->print(space + 2, 1);
 		if (check_one_arg && !check_two_arg)
 		{
 			std::cout << std::endl;
 			print_space(space + 4);
 		}	
 
-		right_operand->print(space + 2, 2);
+		RightOperand->print(space + 2, 2);
 		
 		if (check_one_arg || check_two_arg)
 		{
@@ -174,30 +174,30 @@ public:
 
 class AstOperand : public AstNode
 {
-	std::string name_operand = "";
-	std::unique_ptr<AstNode> operand = nullptr;
+	std::string NameOperand = "";
+	std::unique_ptr<AstNode> Operand = nullptr;
 public:
 	AstOperand() {}
-	AstOperand(std::unique_ptr<AstNode> op, std::string name_op) : operand(move(op)), name_operand(name_op) {}
+	AstOperand(std::unique_ptr<AstNode> op, std::string op_name) : Operand(move(op)), NameOperand(op_name) {}
 	~AstOperand() = default;
-	std::unique_ptr<AstNode> const& get_operand(){ return operand; }
+	std::unique_ptr<AstNode> const& get_operand(){ return Operand; }
 
-	void set_param(std::unique_ptr<AstNode> op, std::string name_op)
+	void set_param(std::unique_ptr<AstNode> op, std::string op_name)
 	{
-		name_operand = name_op;
-		operand = move(op);
+		NameOperand = op_name;
+		Operand = move(op);
 	}
-	std::string get_name() { return name_operand; }
-	//std::unique_ptr<AstNode> const& get_operand() { return operand; }
+	std::string get_name() { return NameOperand; }
+	//std::unique_ptr<AstNode> const& get_operand() { return Operand; }
 	void print(size_t space = 0, size_t arg = 0)
 	{
-		if (operand)
+		if (Operand)
 		{
-			operand->print(space + 2);
+			Operand->print(space + 2);
 		}
 		else
 		{
-			std::cout << name_operand;
+			std::cout << NameOperand;
 		}
 
 		if (arg == 1)
